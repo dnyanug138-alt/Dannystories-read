@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="mr">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#081b2d"><title>Login | Dannystories@Read</title>
+<style>
+*{box-sizing:border-box}body{margin:0;min-height:100vh;font-family:Arial,sans-serif;background:linear-gradient(145deg,#061525,#102b45);color:#f7f3e9;display:grid;place-items:center;padding:22px}
+.card{width:min(100%,430px);background:#0b2034;border:1px solid #b99345;border-radius:22px;padding:28px;box-shadow:0 18px 55px #0008}
+.brand{text-align:center;color:#e5c16b;font-family:Georgia,serif;font-size:29px;font-weight:bold;margin:0 0 8px}.tag{text-align:center;color:#c7d1dc;margin:0 0 24px;font-size:14px}
+h2{font-size:21px;margin:0 0 18px;text-align:center}label{display:block;margin:13px 0 7px;color:#e7d7b2;font-size:14px}
+input{width:100%;padding:13px 14px;border-radius:10px;border:1px solid #52677b;background:#f7f8fa;color:#102033;font-size:16px}
+button{width:100%;border:0;border-radius:10px;padding:13px;margin-top:16px;background:#d7b45e;color:#102033;font-size:16px;font-weight:bold;cursor:pointer}
+.links{display:flex;justify-content:space-between;gap:12px;margin-top:17px;flex-wrap:wrap}.links button{width:auto;padding:5px 0;margin:0;background:none;color:#e5c16b;font-size:14px}
+#message{min-height:22px;color:#ffd78a;text-align:center;font-size:14px;margin-top:13px;line-height:1.4}#userPanel{display:none;text-align:center}.small{font-size:13px;color:#c7d1dc;line-height:1.5;text-align:center;margin-top:18px}
+</style></head>
+<body><main class="card">
+<p class="brand">Dannystories@Read</p><p class="tag">Stories • Books • Novels</p>
+<section id="authPanel"><h2 id="formTitle">Login करा</h2>
+<form id="authForm"><label for="email">Email Address</label><input id="email" type="email" autocomplete="email" placeholder="तुमचा ईमेल" required>
+<label for="password">Password</label><input id="password" type="password" autocomplete="current-password" minlength="6" placeholder="किमान ६ अक्षरे" required>
+<button id="submitBtn" type="submit">LOGIN</button></form>
+<div class="links"><button id="toggleMode" type="button">नवीन खाते तयार करा</button><button id="forgotBtn" type="button">पासवर्ड विसरलात?</button></div><p id="message" role="status"></p></section>
+<section id="userPanel"><h2>स्वागत आहे!</h2><p id="userEmail"></p><p class="small">तुम्ही यशस्वीपणे Login केले आहे.</p><button id="logoutBtn" type="button">LOGOUT</button></section>
+<p class="small">तुमचा पासवर्ड या वेबसाइटमध्ये साठवला जात नाही. Firebase Authentication त्याचे व्यवस्थापन करते.</p>
+</main>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+// Firebase Console मधील Config मधील मूल्ये खाली भरा.
+const firebaseConfig = {
+  apiKey: "PASTE_API_KEY_HERE",
+  authDomain: "PASTE_AUTH_DOMAIN_HERE",
+  projectId: "PASTE_PROJECT_ID_HERE",
+  storageBucket: "PASTE_STORAGE_BUCKET_HERE",
+  messagingSenderId: "PASTE_MESSAGING_SENDER_ID_HERE",
+  appId: "PASTE_APP_ID_HERE"
+};
+const app=initializeApp(firebaseConfig),auth=getAuth(app);
+const authPanel=document.getElementById("authPanel"),userPanel=document.getElementById("userPanel"),form=document.getElementById("authForm"),title=document.getElementById("formTitle"),submitBtn=document.getElementById("submitBtn"),toggleBtn=document.getElementById("toggleMode"),message=document.getElementById("message");
+let signupMode=false;
+toggleBtn.addEventListener("click",()=>{signupMode=!signupMode;title.textContent=signupMode?"नवीन खाते तयार करा":"Login करा";submitBtn.textContent=signupMode?"SIGN UP":"LOGIN";toggleBtn.textContent=signupMode?"आधीच खाते आहे? Login करा":"नवीन खाते तयार करा";document.getElementById("password").autocomplete=signupMode?"new-password":"current-password";message.textContent="";});
+form.addEventListener("submit",async e=>{e.preventDefault();message.textContent="कृपया थांबा...";const email=document.getElementById("email").value.trim(),password=document.getElementById("password").value;try{if(signupMode){await createUserWithEmailAndPassword(auth,email,password);message.textContent="खाते तयार झाले!";}else{await signInWithEmailAndPassword(auth,email,password);message.textContent="Login यशस्वी!";}}catch(error){const m={"auth/email-already-in-use":"हा ईमेल आधीच नोंदणीकृत आहे. Login करून पाहा.","auth/invalid-email":"कृपया योग्य ईमेल लिहा.","auth/weak-password":"पासवर्ड किमान ६ अक्षरांचा असावा.","auth/invalid-credential":"ईमेल किंवा पासवर्ड तपासा.","auth/network-request-failed":"इंटरनेट कनेक्शन तपासा."};message.textContent=m[error.code]||"त्रुटी आली. ईमेल आणि पासवर्ड तपासून पुन्हा प्रयत्न करा."; }});
+document.getElementById("forgotBtn").addEventListener("click",async()=>{const email=document.getElementById("email").value.trim();if(!email){message.textContent="आधी Email Address लिहा.";return;}try{await sendPasswordResetEmail(auth,email);message.textContent="पासवर्ड रीसेट करण्यासाठी ईमेल पाठवला आहे.";}catch(e){message.textContent="ईमेल तपासा आणि पुन्हा प्रयत्न करा."; }});
+document.getElementById("logoutBtn").addEventListener("click",()=>signOut(auth));
+onAuthStateChanged(auth,user=>{if(user){authPanel.style.display="none";userPanel.style.display="block";document.getElementById("userEmail").textContent=user.email||"";}else{authPanel.style.display="block";userPanel.style.display="none";}});
+</script></body></html>
