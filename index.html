@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Dannystories@Read</title>
+<style>
+:root{--navy:#071a2b;--navy2:#102b43;--gold:#e2b85b;--cream:#f7f1e5;--muted:#b8c4ce}
+*{box-sizing:border-box}body{margin:0;background:#f3f0e8;color:#172638;font:16px/1.5 system-ui,Arial,sans-serif}
+header{background:linear-gradient(120deg,var(--navy),var(--navy2));color:white;padding:20px max(5vw,18px);border-bottom:3px solid var(--gold)}
+.top{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}.brand{font-family:Georgia,serif;font-size:clamp(22px,4vw,32px);font-weight:bold;color:var(--gold)}
+nav{display:flex;gap:8px;flex-wrap:wrap}button,.btn{border:0;border-radius:999px;padding:10px 16px;background:var(--gold);color:#172638;font-weight:700;cursor:pointer}
+nav button{background:transparent;color:white;border:1px solid #496176}nav button:hover,nav button.active{background:var(--gold);color:#172638}
+.hero{background:linear-gradient(120deg,#071a2b,#173b57);color:white;padding:58px max(5vw,18px);text-align:center}
+.hero h1{font: bold clamp(30px,6vw,54px) Georgia,serif;margin:0 0 12px}.hero p{color:#d6e0e7;margin:0 auto 22px;max-width:620px}
+.wrap{max-width:1100px;margin:auto;padding:28px 18px}.sectionhead{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+h2{font: bold 27px Georgia,serif;color:var(--navy);margin:0 0 16px}.filters{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0}
+.filters button{background:white;border:1px solid #d7d2c7}.filters button.active{background:var(--navy);color:white}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+.card{background:white;border:1px solid #e4dfd3;border-radius:16px;overflow:hidden;box-shadow:0 5px 18px #14283a0d}
+.cover{height:130px;background:linear-gradient(135deg,#102b43,#34516a);display:grid;place-items:center;color:var(--gold);font:28px Georgia,serif}
+.cardbody{padding:16px}.tag{display:inline-block;font-size:11px;letter-spacing:.08em;padding:4px 8px;border-radius:99px;background:#e9f5ed;color:#23633b;font-weight:800}.tag.paid{background:#fff1d4;color:#825500}
+.muted{color:#6b7782;font-size:14px}.card h3{margin:8px 0 4px;color:#102b43}
+.panel{background:white;border:1px solid #e4dfd3;border-radius:16px;padding:20px;margin-top:26px}
+input,select,textarea{width:100%;padding:11px;border:1px solid #d4d8dc;border-radius:9px;font:inherit;margin:5px 0 12px}label{font-weight:650;font-size:14px}
+.row{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}
+.hidden{display:none!important}.notice{padding:12px;border-radius:10px;background:#fff4d9;color:#664900;font-size:14px;margin:12px 0}
+footer{text-align:center;background:var(--navy);color:#d5dce2;padding:24px;margin-top:38px}footer strong{color:var(--gold)}
+.modal{position:fixed;inset:0;background:#0009;display:none;place-items:center;padding:18px}.modal.show{display:grid}.modalbox{background:white;border-radius:16px;max-width:520px;width:100%;padding:22px}
+@media(max-width:600px){.hero{padding:42px 18px}.top{align-items:flex-start}}
+</style>
+</head>
+<body>
+<header><div class="top"><div><div class="brand">Dannystories@Read</div><small>Every Story Has a New World...</small></div>
+<nav><button class="active" data-view="home">Home</button><button data-view="stories">Stories</button><button data-view="books">Books & Novels</button><button data-view="premium">Premium</button><button data-view="admin">Admin Demo</button></nav></div></header>
+<section class="hero" id="hero"><h1>Discover Your Next Story</h1><p>मराठी, हिंदी आणि English कथा, पुस्तके आणि कादंबऱ्यांचे एक सुंदर वाचनविश्व.</p><button onclick="document.getElementById('library').scrollIntoView({behavior:'smooth'})">Explore Stories</button></section>
+<main class="wrap">
+<section id="home" class="view">
+<div class="sectionhead"><h2>Featured Reads</h2><span class="muted">Stories • Books • Novels</span></div>
+<div class="grid" id="featured"></div>
+</section>
+<section id="stories" class="view hidden"><h2>Stories</h2><p class="muted">तुमच्या आवडीची कथा निवडा.</p><div id="storylist" class="grid"></div></section>
+<section id="books" class="view hidden"><h2>Books & Novels</h2><div id="booklist" class="grid"></div></section>
+<section id="premium" class="view hidden"><h2>Premium Membership</h2><div class="grid">
+<div class="card"><div class="cardbody"><span class="tag paid">MONTHLY</span><h3>Monthly Reader</h3><h2>₹49 <small class="muted">/ 30 days</small></h2><p class="muted">Premium reading collection साठी डेमो प्लॅन.</p><button onclick="demoPay()">Choose Monthly</button></div></div>
+<div class="card"><div class="cardbody"><span class="tag paid">YEARLY</span><h3>Yearly Reader</h3><h2>₹399 <small class="muted">/ 365 days</small></h2><p class="muted">वर्षभर Premium collection चा डेमो प्लॅन.</p><button onclick="demoPay()">Choose Yearly</button></div></div>
+</div><div class="notice">हा फक्त नमुना आहे. पेमेंट बटणे प्रत्यक्ष पैसे घेत नाहीत. Live UPI/Razorpay जोडण्यासाठी अधिकृत merchant setup आणि प्रौढ व्यक्तीची मदत आवश्यक आहे.</div></section>
+<section id="library" class="panel"><div class="sectionhead"><h2>Explore Library</h2><input id="search" style="max-width:260px" placeholder="Search stories..." oninput="render()"></div>
+<div class="filters"><button class="active" data-lang="All">All</button><button data-lang="मराठी">मराठी</button><button data-lang="हिंदी">हिंदी</button><button data-lang="English">English</button><button data-lang="Free">Free</button><button data-lang="Premium">Premium</button></div><div id="librarygrid" class="grid"></div></section>
+<section id="admin" class="view hidden panel"><h2>Admin Dashboard (Demo)</h2><p class="muted">या नमुन्यात admin form फक्त या ब्राउझरमधील demo साठी आहे. सुरक्षित login/backend अजून जोडलेले नाही.</p>
+<form id="storyform"><div class="row"><div><label>Story title</label><input id="title" required placeholder="कथेचे नाव"></div><div><label>Language</label><select id="language"><option>मराठी</option><option>हिंदी</option><option>English</option></select></div></div>
+<div class="row"><div><label>Category</label><select id="category"><option>Story</option><option>Book</option><option>Novel</option></select></div><div><label>Access</label><select id="access"><option>Free</option><option>Premium</option></select></div></div>
+<label>Short description</label><textarea id="description" rows="3" placeholder="कथेची छोटी ओळख"></textarea><button type="submit">Add Demo Story</button></form><div id="adminmsg" class="muted"></div></section>
+</main>
+<footer><strong>Dannystories@Read</strong><br>Stories • Books • Novels<br><small>Demo website concept</small></footer>
+<div class="modal" id="modal"><div class="modalbox"><h2 id="modtitle"></h2><p id="modtext"></p><button onclick="closeModal()">Close</button></div></div>
+<script>
+let items=[
+{title:"पावसातील आठवणी",lang:"मराठी",cat:"Story",access:"Free",desc:"पावसाच्या सरींसोबत जाग्या झालेल्या आठवणी."},
+{title:"अनकही कहानी",lang:"हिंदी",cat:"Novel",access:"Premium",desc:"एक रहस्यमय सफर, जहाँ हर मोड़ पर नया राज़ है."},
+{title:"The Lost Kingdom",lang:"English",cat:"Book",access:"Free",desc:"A young reader discovers a forgotten world."},
+{title:"चांदण्यांची वाट",lang:"मराठी",cat:"Novel",access:"Premium",desc:"स्वप्न, मैत्री आणि धाडसाची एक कादंबरी."}
+];let filter="All";
+function card(x){return `<article class="card"><div class="cover">✦ ${x.cat} ✦</div><div class="cardbody"><span class="tag ${x.access==='Premium'?'paid':''}">${x.access.toUpperCase()}</span><h3>${esc(x.title)}</h3><div class="muted">${esc(x.lang)} · ${esc(x.cat)}</div><p>${esc(x.desc||"")}</p><button onclick="readStory('${encodeURIComponent(x.title)}','${x.access}')">${x.access==='Premium'?'View Premium':'Read Story'}</button></div></article>`}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function render(){let q=(document.getElementById('search')?.value||'').toLowerCase();let shown=items.filter(x=>(filter==='All'||filter==='Free'&&x.access==='Free'||filter==='Premium'&&x.access==='Premium'||x.lang===filter)&&(`${x.title} ${x.desc} ${x.lang}`.toLowerCase().includes(q)));document.getElementById('librarygrid').innerHTML=shown.map(card).join('')||'<p>No stories found.</p>';document.getElementById('featured').innerHTML=items.slice(0,3).map(card).join('');document.getElementById('storylist').innerHTML=items.filter(x=>x.cat==='Story').map(card).join('')||'<p>New stories coming soon.</p>';document.getElementById('booklist').innerHTML=items.filter(x=>x.cat!=='Story').map(card).join('')||'<p>Books coming soon.</p>'}
+function readStory(t,a){if(a==='Premium'){show('Premium Story','ही कथा Premium सदस्यांसाठी आहे. Premium विभागात जाऊन डेमो प्लॅन पाहा.')}else{show(decodeURIComponent(t),'ही नमुना कथा आहे. Admin Demo मधून स्वतःची कथा जोडता येईल.');}}
+function show(t,m){document.getElementById('modtitle').textContent=t;document.getElementById('modtext').textContent=m;document.getElementById('modal').classList.add('show')}function closeModal(){document.getElementById('modal').classList.remove('show')}
+function demoPay(){show('Demo payment only','हे बटण सध्या कोणतेही पेमेंट घेत नाही. Live पेमेंटसाठी सुरक्षित payment gateway integration आवश्यक आहे.')}
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{document.querySelectorAll('nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.querySelectorAll('.view').forEach(x=>x.classList.add('hidden'));document.getElementById(b.dataset.view).classList.remove('hidden');document.getElementById('library').classList.toggle('hidden',b.dataset.view!=='home'&&b.dataset.view!=='stories'&&b.dataset.view!=='books');window.scrollTo({top:0,behavior:'smooth'})});
+document.querySelectorAll('[data-lang]').forEach(b=>b.onclick=()=>{filter=b.dataset.lang;document.querySelectorAll('[data-lang]').forEach(x=>x.classList.remove('active'));b.classList.add('active');render()});
+document.getElementById('storyform').onsubmit=e=>{e.preventDefault();items.unshift({title:title.value,lang:language.value,cat:category.value,access:access.value,desc:description.value});render();adminmsg.textContent='Demo story added to this page.';e.target.reset()};
+render();
+</script></body></html>
