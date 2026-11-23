@@ -27,13 +27,14 @@ button{width:100%;border:0;border-radius:10px;padding:13px;margin-top:16px;backg
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
 // Firebase Console मधील Config मधील मूल्ये खाली भरा.
-const firebaseConfig = {
-  apiKey: "PASTE_API_KEY_HERE",
-  authDomain: "PASTE_AUTH_DOMAIN_HERE",
-  projectId: "PASTE_PROJECT_ID_HERE",
-  storageBucket: "PASTE_STORAGE_BUCKET_HERE",
-  messagingSenderId: "PASTE_MESSAGING_SENDER_ID_HERE",
-  appId: "PASTE_APP_ID_HERE"
+const firebaseConfi// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  apiKey: "AIzaSyAOuf4V4YcG-XCj5PaJNt-FJll8-Tl72eE",
+  authDomain: "dannystories-read.firebaseapp.com",
+  projectId: "dannystories-read",
+  storageBucket: "dannystories-read.firebasestorage.app",
+  messagingSenderId: "684377237619",
+  appId: "1:684377237619:web:de1d8a3ee915c66347e206",
+  measurementId: "G-XSSGS1P3B9"
 };
 const app=initializeApp(firebaseConfig),auth=getAuth(app);
 const authPanel=document.getElementById("authPanel"),userPanel=document.getElementById("userPanel"),form=document.getElementById("authForm"),title=document.getElementById("formTitle"),submitBtn=document.getElementById("submitBtn"),toggleBtn=document.getElementById("toggleMode"),message=document.getElementById("message");
